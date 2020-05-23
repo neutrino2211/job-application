@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="280" height="280" viewBox="0 0 280 280">
+  <defs>
+    <clipPath id="clip-Android_Wear_1">
+      <rect width="280" height="280"/>
+    </clipPath>
+  </defs>
+  <g id="Android_Wear_1" data-name="Android Wear – 1" clip-path="url(#clip-Android_Wear_1)">
+    <rect width="280" height="280" fill="rgba(255,255,255,0)"/>
+    <g id="Group_1" data-name="Group 1" transform="translate(279 276.9) rotate(180)">
+      <line id="Line_1" data-name="Line 1" y1="217.9" transform="translate(140.5 25.5)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="27"/>
+      <line id="Line_2" data-name="Line 2" x1="74" y1="67" transform="translate(66.5 180.4)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="27"/>
+      <line id="Line_3" data-name="Line 3" y1="67" x2="70" transform="translate(140.5 180.4)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="27"/>
+    </g>
+  </g>
+</svg>
