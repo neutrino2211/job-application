@@ -28,6 +28,10 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {
+      src: './plugins/live-editor.js',
+      ssr: false 
+    }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -60,6 +64,20 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+      config.resolve.alias.vue = 'vue/dist/vue.common';
+
+      config.module.rules.push({
+        test: /.mdx?$/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ['@vue/babel-preset-jsx']
+          }
+        }, '@mdx-js/vue-loader']
+      }, {
+        test: /.js?$/,
+        use: 'babel-loader'
+      })
     }
   },
 

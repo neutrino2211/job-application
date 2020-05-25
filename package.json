@@ -13,18 +13,26 @@
     "test": "jest"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
+    "@mdx-js/vue": "^1.6.4",
+    "@mdx-js/vue-loader": "^1.6.4",
     "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/dotenv": "^1.4.0"
+    "@nuxtjs/dotenv": "^1.4.0",
+    "nuxt": "^2.0.0",
+    "vue-live": "^1.11.0",
+    "vue-prism-editor": "^0.6.1"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@nuxt/typescript-build": "^0.6.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/tailwindcss": "^1.0.0",
+    "@vue/babel-preset-jsx": "^1.1.2",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
+    "babel-loader": "^8.1.0",
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "jest": "^24.1.0",
