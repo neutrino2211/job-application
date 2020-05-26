@@ -3,7 +3,7 @@
         <h1 style="font-size: 3rem;"> <slot></slot> </h1>
 
         <div>
-            <h2 class="mx-auto py-8" style="text-align: none !important">
+            <h2 class="mx-auto py-8 lg:text-lg xl:text-xl" style="text-align: none !important">
                 <slot name="description"></slot>
             </h2>
         </div>
