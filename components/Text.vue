@@ -1,10 +1,10 @@
 <template>
     <div>
-        <h2 v-bind:class="{ 'py-8': !inline }" class="mx-auto" v-if="$parent.creativeMode && creative">
+        <h2 v-bind:class="{ 'py-8': !inline }" class="mx-auto" v-if="creativeMode && creative">
             <slot></slot>
         </h2>
 
-        <h2 v-bind:class="{ 'py-8': !inline }" class="mx-auto" v-if="!$parent.creativeMode && formal">
+        <h2 v-bind:class="{ 'py-8': !inline }" class="mx-auto" v-if="!creativeMode && formal">
             <slot></slot>
         </h2>
     </div>
@@ -16,11 +16,14 @@ export default Vue.extend({
     props: {
         formal: Boolean,
         creative: Boolean,
+        mode: Boolean,
         inline: Boolean
     },
 
-    mounted() {
-        console.log(this.$store.state.creativeMode)
+    computed: {
+        creativeMode() {
+            return this.mode || ( this.$parent as any ).creativeMode
+        }
     }
 })
 </script>

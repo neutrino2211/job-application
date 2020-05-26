@@ -61,6 +61,11 @@ html {
   background-color: #35495e;
 }
 
+a {
+  border-bottom: 2px solid #35495e;
+  padding-bottom: 2px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

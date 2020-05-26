@@ -4,26 +4,81 @@
       <input ref="checkbox" type="checkbox" name="creative_mode" id="creative">
       <div class="toggle"></div>
     </div>
+
     <div slide-id="0" class="slide text-center min-h-screen py-32 mx-auto md:w-5/6 xl:w-2/3">
-      <h1 style="font-size: 3rem;"> <span style="font-size: 4rem;">Hello! 👋</span> <br> <br> My Name is Tsowa Mainasara Al-amin and this is why i'll be a great fit. </h1>
+      <h1 style="font-size: 3rem;"> <span style="font-size: 4rem;">Hello! 👋</span> <br> <br> My Name is Tsowa Mainasara Al-amin and this is my awesome application </h1>
+    </div>
+
+    <div slide-id="1" class="slide text-center min-h-screen py-32 mx-auto md:w-5/6 xl:w-2/3">
+      <span style="font-size: 4rem;">Why Are We A Great Fit For Each Other?</span>
 
       <div>
-        <h2 class="mx-auto py-8">
-          All neatly put into very important bullet points.
+        <h2 style="font-size: 2.5rem; font-weight: 100 !important;" class="mx-auto py-8">
+          <slide-text formal>Here's why I think we'll be a great fit for each other</slide-text>
+          <slide-text creative>Well... here goes...</slide-text>
         </h2>
       </div>
     </div>
 
-    <slide v-bind:slideId='slides.indexOf(slide) + 1' v-for="slide in slides" v-bind:key="slide.title">
-      <h1><span style="font-size: 4rem;">{{ slides.indexOf(slide) + 1 }}</span> <br> <br>  <span>{{ slide.title }}</span></h1>
+    <slide v-bind:slideId='slides.indexOf(slide) + 2' v-for="slide in slides" v-bind:key="slide.title">
+      <h1>
+        <span style="font-size: 4rem;">{{ slides.indexOf(slide) + 1 }}</span> <br> <br>  
+        <slide-text formal inline v-bind:mode="creativeMode">{{ slide.title }}</slide-text>
+        <slide-text creative inline v-bind:mode="creativeMode">{{ slide.creativeTitle || slide.title }}</slide-text>
+      </h1>
 
       <template v-slot:description style="text-align: initial">
         <client-only>
           <MDXProvider v-bind:components="{ wrap: props => 'stuff'}">
             <component :is="slide.MDXSlide"></component>
           </MDXProvider>
+          <slide-text creative v-bind:mode="creativeMode"> {{ slide.creativeText }} </slide-text>
         </client-only>
       </template>
+    </slide>
+
+    <slide v-bind:slideId="slides.length + 2">
+       <span style="font-size: 4rem;">What Do You See The Future Being Like If We Work Together?</span> <br> <br>
+
+       <template v-slot:description>
+         <h1>I see a future where we work together to keep improving tailwind and making it the go to in more facets of web development.</h1>
+       </template>
+    </slide>
+
+    <slide v-bind:slideId="slides.length + 3">
+       <span style="font-size: 4rem;">What Are You Excited About In The Industry These Days?</span> <br> <br>
+
+       <template v-slot:description>
+         <h1>
+            I am very excited about how the server-side of web development is being treated these days. Before the advent of serverless and web frameworks, 
+            making sites was a very big pain but these days everything is considerably easier with frameworks/libraries like Angular, Vue and React. Not
+            to mention things like Nuxt and Next.js that combine the ease of making websites with these libraries with the performance improvements of being statically
+            served.
+
+            <slide-text creative v-bind:mode="creativeMode">
+              And then there's the whole deno thing which, the whole distasteful beef aside, is very exciting as it means there's an alternative.
+              And having alternatives is always a good thing.
+            </slide-text>
+          </h1>
+       </template>
+    </slide>
+
+    <slide v-bind:slideId="slides.length + 4">
+       <span style="font-size: 4rem;">What Are You Betting On For The Future?</span> <br> <br>
+
+       <template v-slot:description>
+          <h1>
+            {{ creativeMode ? 'I personally don\'t like predicting things but' : '' }} I believe web technologies are slowly going to merge with computing in ways we never thought before like more of IoT being accessible and Mainframes
+            being a thing again. It has already started with the whole game streaming services and I don't think that's where it will end.</h1>
+       </template>
+    </slide>
+
+    <slide v-bind:slideId="slides.length + 5">
+       <span style="font-size: 4rem;">Is there a project or feature you'd love for us to build together? </span> <br> <br>
+
+       <template v-slot:description>
+          <h1>I honestly don't know, {{ creativeMode ? 'we can hopefully have that discussion mid July 😉.' : 'the work done on tailwind is already impressive. I just hope to be of great use.' }}</h1>
+       </template>
     </slide>
 
     <div v-bind:slide-id="slideCount - 1" class="slide text-center min-h-screen py-32 mx-auto md:w-5/6 xl:w-2/3">
@@ -31,7 +86,9 @@
 
       <div>
         <slide-text creative>Thanks for hearing me out! If you'd like to see a more formal rendition of what I said, click the toggle at the top left</slide-text>
-        <slide-text formal>Thanks for reading. Loooking forward to hearing from you. If you'd like to read a more informal version of these slide, click the toggle at the top left</slide-text>
+        <slide-text formal>Thanks for reading. Loooking forward to hearing from you. If you'd like to read a more informal version of these slides, click the toggle at the top left</slide-text>
+        <br>
+        Here's a link to my <a href="https://neutrino2211.github.io" target="_blank">portfolio</a> if you want to have a look.
       </div>
     </div>
 
@@ -58,6 +115,7 @@ import SlideIntroduction from "~/assets/mdx/slide-introduction.mdx";
 import SlideLaravel from "~/assets/mdx/slide-laravel.mdx";
 import SlideRapid from "~/assets/mdx/slide-rapid.mdx";
 import SlideTinkerer from "~/assets/mdx/slide-tinkerer.mdx";
+import SlideCommandLine from "~/assets/mdx/slide-commandline.mdx";
 
 export default Vue.extend({
   components: {
@@ -78,15 +136,24 @@ export default Vue.extend({
       },
       {
         title: "I have sufficient Laravel experience",
+        creativeTitle: 'I have sufficient Laravel experience... I think',
         MDXSlide: SlideLaravel
       },
       {
         title: "I am a fast learner",
-        MDXSlide: SlideRapid
+        creativeTitle: 'I am a fast learner brrrr 💨',
+        MDXSlide: SlideRapid,
+        creativeText: "Not gonna lie, I misread the job placement and learnt nuxt instead of Next.js 💀"
       },
       {
         title: "I am a tinkerer at heart",
         MDXSlide: SlideTinkerer
+      },
+      {
+        title: "I have worked on CLI toolkits before",
+        creativeTitle: "I'm a freaking CLI wizard 😎",
+        MDXSlide: SlideCommandLine,
+        creativeText: "I honestly love the project, it's helped a lot but I haven't had time to document it so it's just sitting on my computer 😅"
       }
     ]
   }),
@@ -94,7 +161,6 @@ export default Vue.extend({
   mounted() {
     const slides = document.querySelectorAll('.slide');
     this.slideCount = slides.length;
-    console.log(this.creativeMode, this.slideNumber)
     slides.forEach(e => this.isElementVisible(e as HTMLDivElement, i => this.slideNumber = i));
 
 
