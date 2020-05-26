@@ -1,0 +1,13 @@
+
+import Vue from 'vue'
+import LiveEditor from '../../components/LiveEditor/LiveEditor.js'
+
+<LiveEditor>
+{`
+let name = 'codebender828'
+
+<label for="name">Username</label>
+<input name="name" type="text" v-model="name" />
+<p>{{ name }}</p>
+`}
+</LiveEditor>

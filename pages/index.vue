@@ -1,4 +1,4 @@
-<template>
+<template ref="page">
   <div>
     <div ref="toggle_background" class="toggle-background" title="Toggle Creative Mode" @click="toggleCreativeMode()">
       <input ref="checkbox" type="checkbox" name="creative_mode" id="creative">
@@ -14,28 +14,24 @@
       </div>
     </div>
 
-    <slide v-bind:slideId='slides.indexOf(MDXSlide) + 1' v-for="MDXSlide in slides" v-bind:key="slides.indexOf(MDXSlide)">
-      <span>My Vue JS Demo</span>
+    <slide v-bind:slideId='slides.indexOf(slide) + 1' v-for="slide in slides" v-bind:key="slide.title">
+      <h1><span style="font-size: 4rem;">{{ slides.indexOf(slide) + 1 }}</span> <br> <br>  <span>{{ slide.title }}</span></h1>
 
-      <template v-slot:description>
+      <template v-slot:description style="text-align: initial">
         <client-only>
           <MDXProvider v-bind:components="{ wrap: props => 'stuff'}">
-            <component :is="MDXSlide"></component>
+            <component :is="slide.MDXSlide"></component>
           </MDXProvider>
         </client-only>
       </template>
     </slide>
 
-    <div v-bind:slide-id="slideCount - 1" class="slide text-center min-h-screen pb-32 mx-auto md:w-5/6 xl:w-2/3">
-      <h1 style="font-size: 3rem;"> <br> <br> That's all I have to say. Thanks for viewing my application! 🎉🎉</h1>
+    <div v-bind:slide-id="slideCount - 1" class="slide text-center min-h-screen py-32 mx-auto md:w-5/6 xl:w-2/3">
+      <h1 style="font-size: 3rem;"> <span style="font-size: 4rem;"><slide-text inline creative>The End! 😢</slide-text> </span> <br> That's all I have to say. Thanks for viewing my application! 🎉🎉</h1>
 
       <div>
-        <h2 v-if="!creativeMode" class="mx-auto py-8">
-          Click the checkbox at the top left to toggle creative mode, where I let loose and tell you about more stuff.
-        </h2>
-        <h2 v-else class="mx-auto py-8">
-          Thanks for listening to my informal ramble 😅, click the toggle at the top left for a more formal rendition of what I've just said.
-        </h2>
+        <slide-text creative>Thanks for hearing me out! If you'd like to see a more formal rendition of what I said, click the toggle at the top left</slide-text>
+        <slide-text formal>Thanks for reading. Loooking forward to hearing from you. If you'd like to read a more informal version of these slide, click the toggle at the top left</slide-text>
       </div>
     </div>
 
@@ -55,14 +51,17 @@
 import Vue from 'vue'
 import { MDXProvider } from "@mdx-js/vue";
 
+import Text from "~/components/Text.vue";
 import Slide from "~/components/Slide.vue";
 
 import SlideIntroduction from "~/assets/mdx/slide-introduction.mdx";
-
-
+import SlideLaravel from "~/assets/mdx/slide-laravel.mdx";
+import SlideRapid from "~/assets/mdx/slide-rapid.mdx";
+import SlideTinkerer from "~/assets/mdx/slide-tinkerer.mdx";
 
 export default Vue.extend({
   components: {
+    'slide-text': Text,
     Slide,
     MDXProvider,
     SlideIntroduction
@@ -72,14 +71,42 @@ export default Vue.extend({
     creativeMode: false,
     slideNumber: 0,
     slideCount: 0,
-    slides: [ SlideIntroduction ]
+    slides: [
+      {
+        title: "I'm very good with VueJS",
+        MDXSlide: SlideIntroduction
+      },
+      {
+        title: "I have sufficient Laravel experience",
+        MDXSlide: SlideLaravel
+      },
+      {
+        title: "I am a fast learner",
+        MDXSlide: SlideRapid
+      },
+      {
+        title: "I am a tinkerer at heart",
+        MDXSlide: SlideTinkerer
+      }
+    ]
   }),
 
   mounted() {
-    alert('DONE')
     const slides = document.querySelectorAll('.slide');
     this.slideCount = slides.length;
+    console.log(this.creativeMode, this.slideNumber)
     slides.forEach(e => this.isElementVisible(e as HTMLDivElement, i => this.slideNumber = i));
+
+
+    document.addEventListener('keydown', e => {
+      if (e.keyCode == 38) {
+        e.preventDefault();
+        this.moveSlide(-1);
+      } else if (e.keyCode == 40) {
+        e.preventDefault();
+        this.moveSlide(1);
+      }
+    })
   },
 
   methods: {
@@ -96,7 +123,6 @@ export default Vue.extend({
       }
 
       this.creativeMode = toggle.checked;
-      // console.log(this.$refs['checkbox']);
     },
 
     isElementVisible(element: HTMLDivElement, callback: (elNumber: number) => void) {
